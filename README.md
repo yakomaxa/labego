@@ -1,5 +1,5 @@
 # labego
-show ABEGO by label
+show ABEGO by label on PyMOL
 
 # License
 MIT License
