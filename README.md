@@ -5,6 +5,7 @@ show ABEGO by label on PyMOL
 In PyMOL,
 
 ```run labego.py```
+
 ```labego (target)```
 
 # License
