@@ -1,6 +1,12 @@
 # labego
 show ABEGO by label on PyMOL
 
+# Usage
+In PyMOL,
+
+```run labego.py```
+```labego (target)```
+
 # License
 MIT License
 
