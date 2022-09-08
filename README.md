@@ -8,9 +8,15 @@ In PyMOL,
 
 ```labego (target)```
 
+labego only shows ABGE part of ABEGO.
+
+```labegO (target)```
+
+labegO also shows O of ABEGO, but this requires full backbone atoms (works fine for computational models such as Rosetta and AlphaFold-derived models)
+
 ```lapsego (target)```
 
-This divides B-region into two sub-region named P and B, so it's called laPSego
+lapsego divides B-region into two sub-regions named P and B, so it's called laPSego
 
 # License
 MIT License
