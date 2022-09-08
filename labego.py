@@ -24,7 +24,7 @@ def dihd2abego(phi=-60.0,psi=-45.0,omega=180.0,
             return "A"
         else:
             if (divideB):
-                if ( phi < P_thre):
+                if ( phi > P_thre):
                     return "P"
                 else:
                     return "S"
