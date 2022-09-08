@@ -88,6 +88,38 @@ def labegO(target="polymer.protein"):
 pymol.cmd.extend("labegO", labegO)
 cmd.auto_arg[0]['labegO'] = cmd.auto_arg[0]['align']
 
+def lapsegO(target="polymer.protein"):
+    objs=cmd.get_object_list(target)
+    print(objs)
+    for tgt_tmp in objs:
+        tgt = tgt_tmp + " and " + target
+        phipsi=cmd.phi_psi(tgt)
+        keys=list(phipsi)
+        ppos=[]
+        omegas=getomega(tgt)
+        count=0
+        for key in keys:                        
+            #print(omega)
+            phi = phipsi[key][0]
+            psi = phipsi[key][1]       
+            omega = omegas[count]
+            count = count + 1
+            ppos.append([phi,psi,omega])
+        
+        ppos=np.array(ppos)
+        myabego = ppos2abegos(ppos,True)
+        ii = 0
+        for key in keys:
+            label=str(myabego[ii])
+            # Be careful of label should be double quoted when evaluated
+            qlabel='\"' + label + '\"'
+            cmd.label(tgt +" and index "+str(key[1]),expression=qlabel)
+            ii+=1
+            cmd.set("label_size","30")
+
+pymol.cmd.extend("lapsegO", lapsegO)
+cmd.auto_arg[0]['lapsegO'] = cmd.auto_arg[0]['hide']
+
 
 def labego(target="polymer.protein"):
     objs=cmd.get_object_list(target)
