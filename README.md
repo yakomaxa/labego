@@ -15,6 +15,7 @@ labego only shows ABEG part of ABEGO
 labegO also shows O of ABEGO, but this requires full backbone atoms (works fine for computational models such as Rosetta and AlphaFold-derived models)
 
 ```lapsego (target)```
+```lapsegO (target)```
 
 lapsego and lapsegO divides B-region into two sub-regions named P and B, so it's called laPSego(O)
 
