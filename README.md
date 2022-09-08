@@ -8,7 +8,7 @@ In PyMOL,
 
 ```labego (target)```
 
-labego only shows ABGE part of ABEGO.
+labego only shows ABEG part of ABEGO
 
 ```labegO (target)```
 
@@ -16,7 +16,7 @@ labegO also shows O of ABEGO, but this requires full backbone atoms (works fine 
 
 ```lapsego (target)```
 
-lapsego divides B-region into two sub-regions named P and B, so it's called laPSego
+lapsego and lapsegO divides B-region into two sub-regions named P and B, so it's called laPSego(O)
 
 See this [paper](https://www.jstage.jst.go.jp/article/biophysico/18/0/18_bppb-v18.017/_html/-char/en)
  if you wonder why such sub-division is helpful
