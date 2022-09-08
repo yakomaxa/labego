@@ -18,6 +18,9 @@ labegO also shows O of ABEGO, but this requires full backbone atoms (works fine 
 
 lapsego divides B-region into two sub-regions named P and B, so it's called laPSego
 
+See this [paper](https://www.jstage.jst.go.jp/article/biophysico/18/0/18_bppb-v18.017/_html/-char/en)
+ if you wonder why such sub-division is helpful
+
 # License
 MIT License
 
