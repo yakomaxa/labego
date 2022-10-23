@@ -191,7 +191,8 @@ def ramabego(target="polymer.protein"):
             qlabel='\"' + label + '\"'
             cmd.label(tgt +" and index "+str(key[1]),expression=qlabel)
             ii+=1
-            cmd.set("label_size","30")            
+            cmd.set("label_size","30")
+            cmd.set("label_position",[0,0,10])    
             
 
 def lapsego(target="polymer.protein"):
@@ -217,6 +218,7 @@ def lapsego(target="polymer.protein"):
             cmd.label(tgt +" and index "+str(key[1]),expression=qlabel)
             ii+=1
             cmd.set("label_size","30")
+            cmd.set("label_position",[0,0,10])    
 
 def ramapsego(target="polymer.protein"):
     objs=cmd.get_object_list(target)
