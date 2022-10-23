@@ -75,7 +75,7 @@ def labegO(target="polymer.protein"):
             ppos.append([phi,psi,omega])
         
         ppos=np.array(ppos)
-        myabego = ppos2abegos(ppos)
+        myabego = ppos2abegos(ppos,False)
         ii = 0
         for key in keys:
             label=str(myabego[ii])
@@ -145,6 +145,55 @@ def labego(target="polymer.protein"):
             ii+=1
             cmd.set("label_size","30")
 
+def ramaval(target="polymer.protein"):
+    objs=cmd.get_object_list(target)
+    for tgt_tmp in objs:
+        tgt = tgt_tmp + " and " + target
+        phipsi=cmd.phi_psi(tgt)
+        keys=list(phipsi)
+        ppos=[]
+
+        for key in keys:
+            phi = phipsi[key][0]
+            psi = phipsi[key][1]
+            omega = 180.0 # temporary
+            ppos.append([phi,psi,omega])
+        ppos=np.array(ppos)
+        myabego = ppos2abegos(ppos,divideB=False)
+        ii = 0
+        for key in keys:
+            label=str(round(ppos[ii,0]))+"_"+str(int(ppos[ii,1]))
+            # Be careful of label should be double quoted when evaluated
+            qlabel='\"' + label + '\"'
+            cmd.label(tgt +" and index "+str(key[1]),expression=qlabel)
+            ii+=1
+            cmd.set("label_size","30")
+
+def ramabego(target="polymer.protein"):
+    objs=cmd.get_object_list(target)
+    for tgt_tmp in objs:
+        tgt = tgt_tmp + " and " + target
+        phipsi=cmd.phi_psi(tgt)
+        keys=list(phipsi)
+        ppos=[]
+
+        for key in keys:
+            phi = phipsi[key][0]
+            psi = phipsi[key][1]
+            omega = 180.0 # temporary
+            ppos.append([phi,psi,omega])
+        ppos=np.array(ppos)
+        myabego = ppos2abegos(ppos,divideB=False)
+        ii = 0
+        for key in keys:
+            label=str(myabego[ii])+"_"+str(round(ppos[ii,0]))+"_"+str(int(ppos[ii,1]))
+            # Be careful of label should be double quoted when evaluated
+            qlabel='\"' + label + '\"'
+            cmd.label(tgt +" and index "+str(key[1]),expression=qlabel)
+            ii+=1
+            cmd.set("label_size","30")            
+            
+
 def lapsego(target="polymer.protein"):
     objs=cmd.get_object_list(target)
     for tgt_tmp in objs:
@@ -169,7 +218,38 @@ def lapsego(target="polymer.protein"):
             ii+=1
             cmd.set("label_size","30")
 
+def ramapsego(target="polymer.protein"):
+    objs=cmd.get_object_list(target)
+    for tgt_tmp in objs:
+        tgt = tgt_tmp + " and " + target
+        phipsi=cmd.phi_psi(tgt)
+        keys=list(phipsi)
+        ppos=[]
+
+        for key in keys:
+            phi = phipsi[key][0]
+            psi = phipsi[key][1]
+            omega = 180.0 # temporary
+            ppos.append([phi,psi,omega])
+        ppos=np.array(ppos)
+        myabego = ppos2abegos(ppos,divideB=True)
+        ii = 0
+        for key in keys:
+            label=str(myabego[ii])+"_"+str(round(ppos[ii,0]))+"_"+str(int(ppos[ii,1]))
+            # Be careful of label should be double quoted when evaluated
+            qlabel='\"' + label + '\"'
+            cmd.label(tgt +" and index "+str(key[1]),expression=qlabel)
+            ii+=1
+            cmd.set("label_size","30")            
+
 pymol.cmd.extend("labego", labego)
+pymol.cmd.extend("ramaval", ramaval)
+pymol.cmd.extend("ramabego", ramabego)
+pymol.cmd.extend("ramapsego", ramapsego)
 pymol.cmd.extend("lapsego", lapsego)
+
+cmd.auto_arg[0]['ramaval'] = cmd.auto_arg[0]['hide']
 cmd.auto_arg[0]['labego'] = cmd.auto_arg[0]['hide']
 cmd.auto_arg[0]['lapsego'] = cmd.auto_arg[0]['hide']
+cmd.auto_arg[0]['ramapsego'] = cmd.auto_arg[0]['hide']
+cmd.auto_arg[0]['ramabego'] = cmd.auto_arg[0]['hide']
