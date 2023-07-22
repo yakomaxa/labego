@@ -118,7 +118,7 @@ def lapsegO(target="polymer.protein"):
             cmd.set("label_size","30")
 
 pymol.cmd.extend("lapsegO", lapsegO)
-cmd.auto_arg[0]['lapsegO'] = cmd.auto_arg[0]['hide']
+cmd.auto_arg[0]['lapsegO'] = cmd.auto_arg[0]['delete']
 
 
 def labego(target="polymer.protein"):
@@ -250,8 +250,8 @@ pymol.cmd.extend("ramabego", ramabego)
 pymol.cmd.extend("ramapsego", ramapsego)
 pymol.cmd.extend("lapsego", lapsego)
 
-cmd.auto_arg[0]['ramaval'] = cmd.auto_arg[0]['hide']
-cmd.auto_arg[0]['labego'] = cmd.auto_arg[0]['hide']
-cmd.auto_arg[0]['lapsego'] = cmd.auto_arg[0]['hide']
-cmd.auto_arg[0]['ramapsego'] = cmd.auto_arg[0]['hide']
-cmd.auto_arg[0]['ramabego'] = cmd.auto_arg[0]['hide']
+cmd.auto_arg[0]['ramaval'] = cmd.auto_arg[0]['delete']
+cmd.auto_arg[0]['labego'] = cmd.auto_arg[0]['delete']
+cmd.auto_arg[0]['lapsego'] = cmd.auto_arg[0]['delete']
+cmd.auto_arg[0]['ramapsego'] = cmd.auto_arg[0]['delete']
+cmd.auto_arg[0]['ramabego'] = cmd.auto_arg[0]['delete']
