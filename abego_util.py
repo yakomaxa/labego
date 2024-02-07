@@ -544,6 +544,9 @@ def abego_select(name=None, target=None, query="GBB", divideB=False):
     if name is None:
         name = query
 
+    if target is None:
+        target = "all"
+
     for obj in pymol.cmd.get_object_list(target):
         abegos, _, _, min_resis, chains = get_abego_gap_filled(target=obj, divideB=divideB)
         for abego, min_resi, chain in zip(abegos, min_resis, chains):
@@ -609,7 +612,6 @@ def abego_fit(mobile=None, target=None, query="GBB", index_t=0, index_m=0, mode=
 
         pymol.cmd.do(mode + " " + mobile + " and resi " + str(i_m) + "-" + str(e_m) + " and chain " + c_m + " , "
                      + target + " and resi " + str(i_t) + "-" + str(e_t) + " and chain " + c_t)
-
     else:
         print("You don't have enough motifs")
 
@@ -617,8 +619,13 @@ def abego_fit(mobile=None, target=None, query="GBB", index_t=0, index_m=0, mode=
 
 
 def abego_create(name=None, target=None, query="AAAGBBAAA", divideB=False):
+
     if name is None:
         name = query
+
+    if target is None:
+        target = "all"
+
     for obj in pymol.cmd.get_object_list(target):
         abego, _, _, min_resi, chain = get_abego_gap_filled(target=obj, divideB=divideB)
         inits, ends = iterative_search(sequence=abego, query=query)
