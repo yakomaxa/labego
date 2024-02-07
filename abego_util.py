@@ -3,6 +3,7 @@ import re
 from pymol import stored
 import numpy as np
 
+
 def ppos2abegos(ppos, divideB):
     abegos = []
     for resi in range(0, len(ppos[:, 0])):
@@ -14,6 +15,7 @@ def ppos2abegos(ppos, divideB):
         return abegos
     else:
         return None
+
 
 def dihd2abego(phi=-60.0, psi=-45.0, omega=180.0,
                cisbin=30.0, A_upper=50.0, A_lower=-75.0,
@@ -38,6 +40,8 @@ def dihd2abego(phi=-60.0, psi=-45.0, omega=180.0,
             return "G"
         else:
             return "E"
+
+
 def getomega(target):
     stored.resi = []
     cmd.select("tmpsel", target)
@@ -264,8 +268,9 @@ cmd.auto_arg[0]['lapsego'] = cmd.auto_arg[0]['delete']
 cmd.auto_arg[0]['ramapsego'] = cmd.auto_arg[0]['delete']
 cmd.auto_arg[0]['ramabego'] = cmd.auto_arg[0]['delete']
 
+
 ####################################
-def get_abego_gap_filled(target="all",divideB=False):
+def get_abego_gap_filled(target="all", divideB=False):
     aa1 = list("ACDEFGHIKLMNPQRSTVWY")
     aa3 = "ALA CYS ASP GLU PHE GLY HIS ILE LYS LEU MET ASN PRO GLN ARG SER THR VAL TRP TYR".split()
     aa3to1 = dict(zip(aa3, aa1))
@@ -326,7 +331,6 @@ def get_abego_gap_filled(target="all",divideB=False):
             aa_1.append(aa3to1[aa_3])
         myfasta = aa_1
 
-
         phipsi = pymol.cmd.phi_psi(selection)
         keys = list(phipsi)
 
@@ -367,7 +371,7 @@ def get_abego_gap_filled(target="all",divideB=False):
                 ca_bfactor.insert(site + l, 999)
 
         myabego = list("".join(myabego))
-        myfasta = list("X"+"".join(myfasta)+"X")
+        myfasta = list("X" + "".join(myfasta) + "X")
 
         myfasta = "".join(myfasta)
         myabego = "X" + "".join(myabego) + "X"
@@ -406,7 +410,8 @@ def iterative_search(sequence=None, query=None):
                 cumm += e
     return inits, ends
 
-def abego(target="all",query="GBB",mode="labego"):
+
+def _abego(target, query="GBB", mode="labego"):
     for obj in pymol.cmd.get_object_list(target):
         abegos, _, _, min_resis, chains = get_abego_gap_filled(target=obj)
         for abego, min_resi, chain in zip(abegos, min_resis, chains):
@@ -432,29 +437,36 @@ def abego(target="all",query="GBB",mode="labego"):
                         ramapsego(obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
     return 0
 
-def abego_labego(target="polymer.protein", query="GBB"):
-    abego(target=target,query=query,mode="labego")
+
+def abego_labego(target="all", query="GBB"):
+    _abego(target=target, query=query, mode="labego")
     return 0
 
-def abego_lapsego(target="polymer.protein", query="GBB"):
-    abego(target=target,query=query,mode="lapsego")
+
+def abego_lapsego(target="all", query="GBB"):
+    _abego(target=target, query=query, mode="lapsego")
     return 0
 
-def abego_labegO(target="polymer.protein", query="GBB"):
-    abego(target=target,query=query,mode="labegO")
+
+def abego_labegO(target="all", query="GBB"):
+    _abego(target=target, query=query, mode="labegO")
     return 0
 
-def abego_lapsegO(target="polymer.protein", query="GBB"):
-    abego(target=target,query=query,mode="lapsegO")
+
+def abego_lapsegO(target="all", query="GBB"):
+    _abego(target=target, query=query, mode="lapsegO")
     return 0
 
-def abego_ramabego(target="polymer.protein", query="GBB"):
-    abego(target=target,query=query,mode="ramabego")
+
+def abego_ramabego(target="all", query="GBB"):
+    _abego(target=target, query=query, mode="ramabego")
     return 0
 
-def abego_ramapsego(target="polymer.protein", query="GBB"):
-    abego(target=target,query=query,mode="ramapsego")
+
+def abego_ramapsego(target="all", query="GBB"):
+    _abego(target=target, query=query, mode="ramapsego")
     return 0
+
 
 pymol.cmd.extend("abego_labego", abego_labego)
 pymol.cmd.extend("abego_labegO", abego_labegO)
@@ -471,7 +483,10 @@ cmd.auto_arg[0]['abego_ramabego'] = cmd.auto_arg[0]['delete']
 cmd.auto_arg[0]['abego_ramapsego'] = cmd.auto_arg[0]['delete']
 
 
-def abego_show(visual="line", target="all", query="GBB", divideB=False):
+def abego_show(visual="line", target=None, query="GBB", divideB=False):
+    if target is None:
+        target = "all"
+
     for obj in pymol.cmd.get_object_list(target):
         abegos, _, _, min_resis, chains = get_abego_gap_filled(target=obj, divideB=divideB)
         for abego, min_resi, chain in zip(abegos, min_resis, chains):
@@ -486,7 +501,11 @@ def abego_show(visual="line", target="all", query="GBB", divideB=False):
                     pymol.cmd.show(visual, obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
     return 0
 
-def abego_hide(visual="everything", target="all", query="GBB", divideB=False):
+
+def abego_hide(visual="everything", target=None, query="GBB", divideB=False):
+    if target is None:
+        target = "all"
+
     for obj in pymol.cmd.get_object_list(target):
         abegos, _, _, min_resis, chains = get_abego_gap_filled(target=obj, divideB=divideB)
         for abego, min_resi, chain in zip(abegos, min_resis, chains):
@@ -501,7 +520,11 @@ def abego_hide(visual="everything", target="all", query="GBB", divideB=False):
                     pymol.cmd.hide(visual, obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
     return 0
 
-def abego_color(color="white", target="all", query="GBB", divideB=False):
+
+def abego_color(color="white", target=None, query="GBB", divideB=False):
+    if target is None:
+        target = "all"
+
     for obj in pymol.cmd.get_object_list(target):
         abegos, _, _, min_resis, chains = get_abego_gap_filled(target=obj, divideB=divideB)
         for abego, min_resi, chain in zip(abegos, min_resis, chains):
@@ -516,7 +539,8 @@ def abego_color(color="white", target="all", query="GBB", divideB=False):
                     pymol.cmd.color(color, obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
     return 0
 
-def abego_select(name=None, target="all", query="GBB", divideB=False):
+
+def abego_select(name=None, target=None, query="GBB", divideB=False):
     if name is None:
         name = query
 
@@ -533,12 +557,14 @@ def abego_select(name=None, target="all", query="GBB", divideB=False):
                     index += 1
                     i = diff + ii + 1
                     e = diff + ee + 1
-                    pymol.cmd.select(obj + "_" + name + "_" + str(index).zfill(4), target + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
+                    pymol.cmd.select(obj + "_" + name + "_" + str(index).zfill(4),
+                                     target + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
     return 0
 
+
 def abego_fit(mobile=None, target=None, query="GBB", index_t=0, index_m=0, mode="super", divideB=False):
-    abegos_t, _, _, min_resis_t, chains_t = get_abego_gap_filled(target=target,divideB=divideB)
-    abegos_m, _, _, min_resis_m, chains_m = get_abego_gap_filled(target=mobile,divideB=divideB)
+    abegos_t, _, _, min_resis_t, chains_t = get_abego_gap_filled(target=target, divideB=divideB)
+    abegos_m, _, _, min_resis_m, chains_m = get_abego_gap_filled(target=mobile, divideB=divideB)
 
     i_ts = []
     e_ts = []
@@ -589,7 +615,8 @@ def abego_fit(mobile=None, target=None, query="GBB", index_t=0, index_m=0, mode=
 
     return 0
 
-def abego_create(name=None, target="all", query="AAAGBBAAA",divideB=False):
+
+def abego_create(name=None, target=None, query="AAAGBBAAA", divideB=False):
     if name is None:
         name = query
     for obj in pymol.cmd.get_object_list(target):
@@ -601,8 +628,10 @@ def abego_create(name=None, target="all", query="AAAGBBAAA",divideB=False):
             index += 1
             i = diff + ii + 1
             e = diff + ee + 1
-            pymol.cmd.create(target + "_" + name + "_" + str(index).zfill(4), target + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
+            pymol.cmd.create(target + "_" + name + "_" + str(index).zfill(4),
+                             target + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
         return 0
+
 
 pymol.cmd.extend("abego_show", abego_show)
 pymol.cmd.auto_arg[0]['abego_show'] = pymol.cmd.auto_arg[0]['show']
@@ -617,7 +646,7 @@ pymol.cmd.auto_arg[0]['abego_color'] = pymol.cmd.auto_arg[0]['color']
 pymol.cmd.auto_arg[1]['abego_color'] = pymol.cmd.auto_arg[1]['color']
 
 pymol.cmd.extend("abego_select", abego_select)
-#pymol.cmd.auto_arg[0]['abego_select'] = pymol.cmd.auto_arg[0]['select']
+# pymol.cmd.auto_arg[0]['abego_select'] = pymol.cmd.auto_arg[0]['select']
 pymol.cmd.auto_arg[1]['abego_select'] = pymol.cmd.auto_arg[1]['select']
 
 pymol.cmd.extend("abego_create", abego_create)
@@ -627,6 +656,4 @@ pymol.cmd.auto_arg[1]['abego_create'] = pymol.cmd.auto_arg[1]['create']
 pymol.cmd.extend("abego_fit", abego_fit)
 pymol.cmd.auto_arg[0]['abego_fit'] = pymol.cmd.auto_arg[0]['align']
 pymol.cmd.auto_arg[1]['abego_fit'] = pymol.cmd.auto_arg[1]['align']
-#pymol.cmd.auto_arg[4]['abego_fit'] = [lambda: pymol.cmd.Shortcut(['super','align','mican']), '4th argument', ', ']
-
-
+# pymol.cmd.auto_arg[4]['abego_fit'] = [lambda: pymol.cmd.Shortcut(['super','align','mican']), '4th argument', ', ']
