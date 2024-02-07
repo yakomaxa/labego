@@ -438,32 +438,44 @@ def _abego(target, query="GBB", mode="labego"):
     return 0
 
 
-def abego_labego(target="all", query="GBB"):
+def abego_labego(target=None, query="GBB"):
+    if target is None:
+        target = "all"
     _abego(target=target, query=query, mode="labego")
     return 0
 
 
-def abego_lapsego(target="all", query="GBB"):
+def abego_lapsego(target=None, query="GBB"):
+    if target is None:
+        target = "all"
     _abego(target=target, query=query, mode="lapsego")
     return 0
 
 
-def abego_labegO(target="all", query="GBB"):
+def abego_labegO(target=None, query="GBB"):
+    if target is None:
+        target = "all"
     _abego(target=target, query=query, mode="labegO")
     return 0
 
 
-def abego_lapsegO(target="all", query="GBB"):
+def abego_lapsegO(target=None, query="GBB"):
+    if target is None:
+        target = "all"
     _abego(target=target, query=query, mode="lapsegO")
     return 0
 
 
-def abego_ramabego(target="all", query="GBB"):
+def abego_ramabego(target=None, query="GBB"):
+    if target is None:
+        target = "all"
     _abego(target=target, query=query, mode="ramabego")
     return 0
 
 
-def abego_ramapsego(target="all", query="GBB"):
+def abego_ramapsego(target=None, query="GBB"):
+    if target is None:
+        target = "all"
     _abego(target=target, query=query, mode="ramapsego")
     return 0
 
