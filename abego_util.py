@@ -629,6 +629,13 @@ def abego_fit(mobile=None, target=None, query="GBB", index_t=0, index_m=0, mode=
 
     return 0
 
+def abego_fitto(target=None, query="GBB", index_t=0, index_m=0, mode="pair_fit", divideB=False):
+    for obj in pymol.cmd.get_object_list("all"):
+        abego_fit(obj,target,query,index_t,index_m)
+    return
+
+pymol.cmd.extend("abego_fitto", abego_fitto)
+pymol.cmd.auto_arg[0]['abego_fitto'] = pymol.cmd.auto_arg[0]['align']
 
 def abego_create(name=None, target=None, query="AAAGBBAAA", divideB=False):
 
