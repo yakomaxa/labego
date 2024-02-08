@@ -320,6 +320,10 @@ def get_abego_gap_filled(target="all", divideB=False):
             ca_index = index_visible
             ca_resi = resi_visible
             ca_bfactor = b_visible
+            if (len(b_visible) == 0):
+                print("no positive b-factor... quitting")
+                return abegos, fastas, bfactors, min_indexes, chains
+
         else:
             ca_resname = stored.ca_resname
             ca_index = stored.ca_index
@@ -385,6 +389,22 @@ def get_abego_gap_filled(target="all", divideB=False):
 
 
 def iterative_search(sequence=None, query=None):
+    query = re.compile(query.upper())
+    iter = query.finditer(sequence.upper())
+    inits = []
+    ends = []
+    for i in iter:
+        start, stop = i.span()
+        inits.append(start)
+        ends.append(stop - 1)
+
+    if len(inits) == 0:
+        return None, None
+
+    return inits, ends
+
+# old implementation
+def iterative_search_(sequence=None, query=None):
     result = re.search(query, sequence)
     if (result == None):
         return None, None
@@ -417,7 +437,7 @@ def _abego(target, query="GBB", mode="labego"):
         for abego, min_resi, chain in zip(abegos, min_resis, chains):
             inits, ends = iterative_search(sequence=abego, query=query)
             if inits is None:
-                print(query + " is not found in chain " + chain)
+                print(query + " is not found in chain " + chain + " of " + obj)
             else:
                 diff = min_resi - 1
                 for ii, ee in zip(inits, ends):
@@ -504,7 +524,7 @@ def abego_show(visual="line", target=None, query="GBB", divideB=False):
         for abego, min_resi, chain in zip(abegos, min_resis, chains):
             inits, ends = iterative_search(sequence=abego, query=query)
             if inits is None:
-                print(query + " is not found in chain " + chain)
+                print(query + " is not found in chain " + chain + " of " + obj)
             else:
                 diff = min_resi - 1
                 for ii, ee in zip(inits, ends):
@@ -523,7 +543,7 @@ def abego_hide(visual="everything", target=None, query="GBB", divideB=False):
         for abego, min_resi, chain in zip(abegos, min_resis, chains):
             inits, ends = iterative_search(sequence=abego, query=query)
             if inits is None:
-                print(query + " is not found in chain " + chain)
+                print(query + " is not found in chain " + chain + " of " + obj)
             else:
                 diff = min_resi - 1
                 for ii, ee in zip(inits, ends):
@@ -542,7 +562,7 @@ def abego_color(color="white", target=None, query="GBB", divideB=False):
         for abego, min_resi, chain in zip(abegos, min_resis, chains):
             inits, ends = iterative_search(sequence=abego, query=query)
             if inits is None:
-                print(query + " is not found in chain " + chain)
+                print(query + " is not found in chain " + chain + " of " + obj)
             else:
                 diff = min_resi - 1
                 for ii, ee in zip(inits, ends):
@@ -564,7 +584,7 @@ def abego_select(name=None, target=None, query="GBB", divideB=False):
         for abego, min_resi, chain in zip(abegos, min_resis, chains):
             inits, ends = iterative_search(sequence=abego, query=query)
             if inits is None:
-                print(query + " is not found in chain " + chain)
+                print(query + " is not found in chain " + chain + " of " + obj)
             else:
                 diff = min_resi - 1
                 index = 0
@@ -576,6 +596,37 @@ def abego_select(name=None, target=None, query="GBB", divideB=False):
                                      target + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
     return 0
 
+def abego_print(target=None, query="GBB", divideB=False):
+
+    if target is None:
+        target = "all"
+
+    r=[]
+
+    for obj in pymol.cmd.get_object_list(target):
+        abegos, _, _, min_resis, chains = get_abego_gap_filled(target=obj, divideB=divideB)
+        for abego, min_resi, chain in zip(abegos, min_resis, chains):
+            inits, ends = iterative_search(sequence=abego, query=query)
+            if inits is None:
+                print(query + " is not found in chain " + chain + " of " + obj)
+            else:
+                diff = min_resi - 1
+                index = 0
+                for ii, ee in zip(inits, ends):
+                    index += 1
+                    i = diff + ii + 1
+                    e = diff + ee + 1
+                    print("obj="+target+
+                        " chain="+chain+
+                        " resi=" + str(i) + "-" + str(e))
+
+                    l = target + " and resi " + str(i) + "-" + str(e) + " and chain " + chain
+                    r.append(l)
+
+    return r
+
+pymol.cmd.extend("abego_print", abego_print)
+pymol.cmd.auto_arg[0]['abego_print'] = pymol.cmd.auto_arg[0]['print']
 
 def abego_fit(mobile=None, target=None, query="GBB", index_t=0, index_m=0, mode="pair_fit", divideB=False):
     abegos_t, _, _, min_resis_t, chains_t = get_abego_gap_filled(target=target, divideB=divideB)
