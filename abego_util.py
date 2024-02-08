@@ -626,7 +626,7 @@ def abego_print(target=None, query="GBB", divideB=False):
     return r
 
 pymol.cmd.extend("abego_print", abego_print)
-pymol.cmd.auto_arg[0]['abego_print'] = pymol.cmd.auto_arg[0]['print']
+pymol.cmd.auto_arg[0]['abego_print'] = pymol.cmd.auto_arg[0]['align']
 
 def abego_fit(mobile=None, target=None, query="GBB", index_t=0, index_m=0, mode="pair_fit", divideB=False):
     abegos_t, _, _, min_resis_t, chains_t = get_abego_gap_filled(target=target, divideB=divideB)
