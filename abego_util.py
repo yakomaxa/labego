@@ -577,7 +577,7 @@ def abego_select(name=None, target=None, query="GBB", divideB=False):
     return 0
 
 
-def abego_fit(mobile=None, target=None, query="GBB", index_t=0, index_m=0, mode="super", divideB=False):
+def abego_fit(mobile=None, target=None, query="GBB", index_t=0, index_m=0, mode="pair_fit", divideB=False):
     abegos_t, _, _, min_resis_t, chains_t = get_abego_gap_filled(target=target, divideB=divideB)
     abegos_m, _, _, min_resis_m, chains_m = get_abego_gap_filled(target=mobile, divideB=divideB)
 
@@ -622,8 +622,8 @@ def abego_fit(mobile=None, target=None, query="GBB", index_t=0, index_m=0, mode=
         e_t = e_ts[int(index_t)]
         c_t = c_ts[int(index_t)]
 
-        pymol.cmd.do(mode + " " + mobile + " and resi " + str(i_m) + "-" + str(e_m) + " and chain " + c_m + " , "
-                     + target + " and resi " + str(i_t) + "-" + str(e_t) + " and chain " + c_t)
+        pymol.cmd.do(mode + " " + mobile + " and resi " + str(i_m) + "-" + str(e_m) + " and name ca and chain " + c_m + " , "
+                     + target + " and resi " + str(i_t) + "-" + str(e_t) + " and name ca and chain " + c_t)
     else:
         print("You don't have enough motifs")
 
