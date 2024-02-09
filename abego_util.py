@@ -620,7 +620,7 @@ def abego_print(target=None, query="GBB", divideB=False):
                         " chain="+chain+
                         " resi=" + str(i) + "-" + str(e))
 
-                    l = target + " and resi " + str(i) + "-" + str(e) + " and chain " + chain
+                    l = obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain
                     r.append(l)
 
     return r
