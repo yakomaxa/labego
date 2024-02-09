@@ -66,7 +66,7 @@ def labegO(target="polymer.protein"):
     print(objs)
     for tgt_tmp in objs:
         tgt = tgt_tmp + " and " + target
-        phipsi = cmd.phi_psi(tgt)
+        phipsi = cmd.get_phipsi(tgt)
         keys = list(phipsi)
         ppos = []
         omegas = getomega(tgt)
@@ -100,7 +100,7 @@ def lapsegO(target="polymer.protein"):
     print(objs)
     for tgt_tmp in objs:
         tgt = tgt_tmp + " and " + target
-        phipsi = cmd.phi_psi(tgt)
+        phipsi = cmd.get_phipsi(tgt)
         keys = list(phipsi)
         ppos = []
         omegas = getomega(tgt)
@@ -133,7 +133,7 @@ def labego(target="polymer.protein"):
     objs = cmd.get_object_list(target)
     for tgt_tmp in objs:
         tgt = tgt_tmp + " and " + target
-        phipsi = cmd.phi_psi(tgt)
+        phipsi = cmd.get_phipsi(tgt)
         keys = list(phipsi)
         ppos = []
 
@@ -158,7 +158,7 @@ def ramaval(target="polymer.protein"):
     objs = cmd.get_object_list(target)
     for tgt_tmp in objs:
         tgt = tgt_tmp + " and " + target
-        phipsi = cmd.phi_psi(tgt)
+        phipsi = cmd.get_phipsi(tgt)
         keys = list(phipsi)
         ppos = []
 
@@ -183,7 +183,7 @@ def ramabego(target="polymer.protein"):
     objs = cmd.get_object_list(target)
     for tgt_tmp in objs:
         tgt = tgt_tmp + " and " + target
-        phipsi = cmd.phi_psi(tgt)
+        phipsi = cmd.get_phipsi(tgt)
         keys = list(phipsi)
         ppos = []
 
@@ -209,7 +209,7 @@ def lapsego(target="polymer.protein"):
     objs = cmd.get_object_list(target)
     for tgt_tmp in objs:
         tgt = tgt_tmp + " and " + target
-        phipsi = cmd.phi_psi(tgt)
+        phipsi = cmd.get_phipsi(tgt)
         keys = list(phipsi)
         ppos = []
 
@@ -235,7 +235,7 @@ def ramapsego(target="polymer.protein"):
     objs = cmd.get_object_list(target)
     for tgt_tmp in objs:
         tgt = tgt_tmp + " and " + target
-        phipsi = cmd.phi_psi(tgt)
+        phipsi = cmd.get_phipsi(tgt)
         keys = list(phipsi)
         ppos = []
 
@@ -335,7 +335,7 @@ def get_abego_gap_filled(target="all", divideB=False):
             aa_1.append(aa3to1[aa_3])
         myfasta = aa_1
 
-        phipsi = pymol.cmd.phi_psi(selection)
+        phipsi = pymol.cmd.get_phipsi(selection)
         keys = list(phipsi)
 
         ca_index = np.array(ca_index)
