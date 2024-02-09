@@ -616,7 +616,7 @@ def abego_print(target=None, query="GBB", divideB=False):
                     index += 1
                     i = diff + ii + 1
                     e = diff + ee + 1
-                    print("obj="+target+
+                    print("obj="+obj+
                         " chain="+chain+
                         " resi=" + str(i) + "-" + str(e))
 
