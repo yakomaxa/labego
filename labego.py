@@ -1,14 +1,17 @@
 from pymol import stored
 
-def ppos2abegos(ppos,divideB):
-    abegos=[]
-    for resi in range(0,len(ppos[:,0])):
-        phi   = float(ppos[resi, 0])
-        psi   = float(ppos[resi, 1])
-        omega = float(ppos[resi, 2])
-        abegos.append(dihd2abego(phi,psi,omega,divideB=divideB))
-    if (len(ppos[:,0] == len(abegos))):
-        return abegos
+def ppos2abegos(ppos, divideB):
+    abegos = []    
+    if ppos.ndim == 2:
+        for resi in range(0, len(ppos[:, 0])):
+            phi = float(ppos[resi, 0])
+            psi = float(ppos[resi, 1])
+            omega = float(ppos[resi, 2])
+            abegos.append(dihd2abego(phi, psi, omega, divideB=divideB))
+        if (len(ppos[:, 0] == len(abegos))):
+            return abegos
+        else:
+            return None
     else:
         return None
 

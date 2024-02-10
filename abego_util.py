@@ -6,16 +6,22 @@ import numpy as np
 
 def ppos2abegos(ppos, divideB):
     abegos = []
-    for resi in range(0, len(ppos[:, 0])):
-        phi = float(ppos[resi, 0])
-        psi = float(ppos[resi, 1])
-        omega = float(ppos[resi, 2])
-        abegos.append(dihd2abego(phi, psi, omega, divideB=divideB))
-    if (len(ppos[:, 0] == len(abegos))):
-        return abegos
+    print(ppos)
+    print(ppos.ndim)
+
+    hoge
+    if ppos.ndim == 2:
+        for resi in range(0, len(ppos[:, 0])):
+            phi = float(ppos[resi, 0])
+            psi = float(ppos[resi, 1])
+            omega = float(ppos[resi, 2])
+            abegos.append(dihd2abego(phi, psi, omega, divideB=divideB))
+        if (len(ppos[:, 0] == len(abegos))):
+            return abegos
+        else:
+            return None
     else:
         return None
-
 
 def dihd2abego(phi=-60.0, psi=-45.0, omega=180.0,
                cisbin=30.0, A_upper=50.0, A_lower=-75.0,
@@ -270,10 +276,11 @@ cmd.auto_arg[0]['ramabego'] = cmd.auto_arg[0]['delete']
 
 
 ####################################
-def get_abego_gap_filled(target="all", divideB=False):
+def get_abego_gap_filled(target="polymer.protein", divideB=False):
     aa1 = list("ACDEFGHIKLMNPQRSTVWY")
     aa3 = "ALA CYS ASP GLU PHE GLY HIS ILE LYS LEU MET ASN PRO GLN ARG SER THR VAL TRP TYR".split()
     aa3to1 = dict(zip(aa3, aa1))
+
     _target = target
     chains = pymol.cmd.get_chains(target)
 
@@ -463,42 +470,42 @@ def _abego(target, query="GBB", mode="labego"):
 
 def abego_labego(target=None, query="GBB"):
     if target is None:
-        target = "all"
+        target = "polymer.protein"
     _abego(target=target, query=query, mode="labego")
     return 0
 
 
 def abego_lapsego(target=None, query="GBB"):
     if target is None:
-        target = "all"
+        target = "polymer.protein"
     _abego(target=target, query=query, mode="lapsego")
     return 0
 
 
 def abego_labegO(target=None, query="GBB"):
     if target is None:
-        target = "all"
+        target = "polymer.protein"
     _abego(target=target, query=query, mode="labegO")
     return 0
 
 
 def abego_lapsegO(target=None, query="GBB"):
     if target is None:
-        target = "all"
+        target = "polymer.protein"
     _abego(target=target, query=query, mode="lapsegO")
     return 0
 
 
 def abego_ramabego(target=None, query="GBB"):
     if target is None:
-        target = "all"
+        target = "polymer.protein"
     _abego(target=target, query=query, mode="ramabego")
     return 0
 
 
 def abego_ramapsego(target=None, query="GBB"):
     if target is None:
-        target = "all"
+        target = "polymer.protein"
     _abego(target=target, query=query, mode="ramapsego")
     return 0
 
@@ -520,7 +527,7 @@ cmd.auto_arg[0]['abego_ramapsego'] = cmd.auto_arg[0]['delete']
 
 def abego_show(visual="line", target=None, query="GBB", divideB=False):
     if target is None:
-        target = "all"
+        target = "polymer.protein"
 
     for obj in pymol.cmd.get_object_list(target):
         abegos, _, _, min_resis, chains = get_abego_gap_filled(target=obj, divideB=divideB)
@@ -539,7 +546,7 @@ def abego_show(visual="line", target=None, query="GBB", divideB=False):
 
 def abego_hide(visual="everything", target=None, query="GBB", divideB=False):
     if target is None:
-        target = "all"
+        target = "polymer.protein"
 
     for obj in pymol.cmd.get_object_list(target):
         abegos, _, _, min_resis, chains = get_abego_gap_filled(target=obj, divideB=divideB)
@@ -558,7 +565,7 @@ def abego_hide(visual="everything", target=None, query="GBB", divideB=False):
 
 def abego_color(color="white", target=None, query="GBB", divideB=False):
     if target is None:
-        target = "all"
+        target = "polymer.protein"
 
     for obj in pymol.cmd.get_object_list(target):
         abegos, _, _, min_resis, chains = get_abego_gap_filled(target=obj, divideB=divideB)
@@ -580,7 +587,7 @@ def abego_select(name=None, target=None, query="GBB", divideB=False):
         name = query
 
     if target is None:
-        target = "all"
+        target = "polymer.protein"
 
     for obj in pymol.cmd.get_object_list(target):
         abegos, _, _, min_resis, chains = get_abego_gap_filled(target=obj, divideB=divideB)
@@ -602,7 +609,7 @@ def abego_select(name=None, target=None, query="GBB", divideB=False):
 def abego_print(target=None, query="GBB", divideB=False):
 
     if target is None:
-        target = "all"
+        target = "polymer.protein"
 
     r=[]
 
@@ -697,7 +704,7 @@ def abego_create(name=None, target=None, query="AAAGBBAAA", divideB=False):
         name = query
 
     if target is None:
-        target = "all"
+        target = "polymer.protein"
 
     for obj in pymol.cmd.get_object_list(target):
         abego, _, _, min_resi, chain = get_abego_gap_filled(target=obj, divideB=divideB)

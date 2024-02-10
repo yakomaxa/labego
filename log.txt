@@ -1,0 +1,10 @@
+cmd._ctrl(chr(82))
+cmd._ctrl(chr(67))
+editing_ring copy
+cmd._ctrl(chr(67))
+editing_ring copy
+cmd._ctrl(chr(67))
+editing_ring copy
+cmd._ctrl(chr(67))
+editing_ring copy
+abego_labego
