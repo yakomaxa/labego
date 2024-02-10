@@ -321,9 +321,12 @@ def get_abego_gap_filled(target="all", divideB=False):
             ca_resi = resi_visible
             ca_bfactor = b_visible
             if (len(b_visible) == 0):
-                print("no positive b-factor... quitting")
-                return abegos, fastas, bfactors, min_indexes, chains
-
+                print("no positive b-factor... guessing it's computational model")
+                ca_resname = stored.ca_resname
+                ca_index = stored.ca_index
+                ca_resi = stored.ca_resi
+                ca_bfactor = stored.bfactor
+                
         else:
             ca_resname = stored.ca_resname
             ca_index = stored.ca_index
