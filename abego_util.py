@@ -586,7 +586,7 @@ def abego_select(name=None, target=None, query="GBB", divideB=False):
                     index += 1
                     i = diff + ii + 1
                     e = diff + ee + 1
-                    pymol.cmd.select(obj + "_" + name + "_" + str(index).zfill(4),
+                    pymol.cmd.select(obj + "_" + name + "_" + chain +"_" + str(index).zfill(4),
                                      target + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
     return 0
 
@@ -700,8 +700,8 @@ def abego_create(name=None, target=None, query="AAAGBBAAA", divideB=False):
             index += 1
             i = diff + ii + 1
             e = diff + ee + 1
-            pymol.cmd.create(target + "_" + name + "_" + str(index).zfill(4),
-                             target + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
+            pymol.cmd.create(obj + "_" + name + "_" + chain + "_" + str(index).zfill(4),
+                             obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
         return 0
 
 
