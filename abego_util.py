@@ -4,18 +4,14 @@ from pymol import stored
 import numpy as np
 
 
-def ppos2abegos(ppos, divideB):
+def _ppos2abegos(ppos, divideB):
     abegos = []
-    print(ppos)
-    print(ppos.ndim)
-
-    hoge
     if ppos.ndim == 2:
         for resi in range(0, len(ppos[:, 0])):
             phi = float(ppos[resi, 0])
             psi = float(ppos[resi, 1])
             omega = float(ppos[resi, 2])
-            abegos.append(dihd2abego(phi, psi, omega, divideB=divideB))
+            abegos.append(_dihd2abego(phi, psi, omega, divideB=divideB))
         if (len(ppos[:, 0] == len(abegos))):
             return abegos
         else:
@@ -23,7 +19,7 @@ def ppos2abegos(ppos, divideB):
     else:
         return None
 
-def dihd2abego(phi=-60.0, psi=-45.0, omega=180.0,
+def _dihd2abego(phi=-60.0, psi=-45.0, omega=180.0,
                cisbin=30.0, A_upper=50.0, A_lower=-75.0,
                G_upper=100, G_lower=-100.0,
                P_thre=-90, divideB=False):
@@ -48,7 +44,7 @@ def dihd2abego(phi=-60.0, psi=-45.0, omega=180.0,
             return "E"
 
 
-def getomega(target):
+def _getomega(target):
     stored.resi = []
     cmd.select("tmpsel", target)
     cmd.iterate("tmpsel and name CA", "stored.resi.append(int(resi))")
@@ -67,7 +63,7 @@ def getomega(target):
     return omegas
 
 
-def labegO(target="polymer.protein"):
+def _labegO(target="polymer.protein"):
     objs = cmd.get_object_list(target)
     print(objs)
     for tgt_tmp in objs:
@@ -86,7 +82,7 @@ def labegO(target="polymer.protein"):
             ppos.append([phi, psi, omega])
 
         ppos = np.array(ppos)
-        myabego = ppos2abegos(ppos, False)
+        myabego = _ppos2abegos(ppos, False)
         ii = 0
         for key in keys:
             label = str(myabego[ii])
@@ -101,7 +97,7 @@ pymol.cmd.extend("labegO", labegO)
 cmd.auto_arg[0]['labegO'] = cmd.auto_arg[0]['align']
 
 
-def lapsegO(target="polymer.protein"):
+def _lapsegO(target="polymer.protein"):
     objs = cmd.get_object_list(target)
     print(objs)
     for tgt_tmp in objs:
@@ -120,7 +116,7 @@ def lapsegO(target="polymer.protein"):
             ppos.append([phi, psi, omega])
 
         ppos = np.array(ppos)
-        myabego = ppos2abegos(ppos, True)
+        myabego = _ppos2abegos(ppos, True)
         ii = 0
         for key in keys:
             label = str(myabego[ii])
@@ -135,7 +131,7 @@ pymol.cmd.extend("lapsegO", lapsegO)
 cmd.auto_arg[0]['lapsegO'] = cmd.auto_arg[0]['delete']
 
 
-def labego(target="polymer.protein"):
+def _labego(target="polymer.protein"):
     objs = cmd.get_object_list(target)
     for tgt_tmp in objs:
         tgt = tgt_tmp + " and " + target
@@ -149,7 +145,7 @@ def labego(target="polymer.protein"):
             omega = 180.0  # temporary
             ppos.append([phi, psi, omega])
         ppos = np.array(ppos)
-        myabego = ppos2abegos(ppos, divideB=False)
+        myabego = _ppos2abegos(ppos, divideB=False)
         ii = 0
         for key in keys:
             label = str(myabego[ii])
@@ -160,7 +156,7 @@ def labego(target="polymer.protein"):
             cmd.set("label_size", "30")
 
 
-def ramaval(target="polymer.protein"):
+def _ramaval(target="polymer.protein"):
     objs = cmd.get_object_list(target)
     for tgt_tmp in objs:
         tgt = tgt_tmp + " and " + target
@@ -174,7 +170,7 @@ def ramaval(target="polymer.protein"):
             omega = 180.0  # temporary
             ppos.append([phi, psi, omega])
         ppos = np.array(ppos)
-        myabego = ppos2abegos(ppos, divideB=False)
+        myabego = _ppos2abegos(ppos, divideB=False)
         ii = 0
         for key in keys:
             label = str(round(ppos[ii, 0])) + "_" + str(int(ppos[ii, 1]))
@@ -185,7 +181,7 @@ def ramaval(target="polymer.protein"):
             cmd.set("label_size", "30")
 
 
-def ramabego(target="polymer.protein"):
+def _ramabego(target="polymer.protein"):
     objs = cmd.get_object_list(target)
     for tgt_tmp in objs:
         tgt = tgt_tmp + " and " + target
@@ -199,7 +195,7 @@ def ramabego(target="polymer.protein"):
             omega = 180.0  # temporary
             ppos.append([phi, psi, omega])
         ppos = np.array(ppos)
-        myabego = ppos2abegos(ppos, divideB=False)
+        myabego = _ppos2abegos(ppos, divideB=False)
         ii = 0
         for key in keys:
             label = str(myabego[ii]) + "_" + str(round(ppos[ii, 0])) + "_" + str(int(ppos[ii, 1]))
@@ -211,7 +207,7 @@ def ramabego(target="polymer.protein"):
             cmd.set("label_position", [0, 0, 10])
 
 
-def lapsego(target="polymer.protein"):
+def _lapsego(target="polymer.protein"):
     objs = cmd.get_object_list(target)
     for tgt_tmp in objs:
         tgt = tgt_tmp + " and " + target
@@ -225,7 +221,7 @@ def lapsego(target="polymer.protein"):
             omega = 180.0  # temporary
             ppos.append([phi, psi, omega])
         ppos = np.array(ppos)
-        myabego = ppos2abegos(ppos, divideB=True)
+        myabego = _ppos2abegos(ppos, divideB=True)
         ii = 0
         for key in keys:
             label = str(myabego[ii])
@@ -237,7 +233,7 @@ def lapsego(target="polymer.protein"):
             cmd.set("label_position", [0, 0, 10])
 
 
-def ramapsego(target="polymer.protein"):
+def _ramapsego(target="polymer.protein"):
     objs = cmd.get_object_list(target)
     for tgt_tmp in objs:
         tgt = tgt_tmp + " and " + target
@@ -251,7 +247,7 @@ def ramapsego(target="polymer.protein"):
             omega = 180.0  # temporary
             ppos.append([phi, psi, omega])
         ppos = np.array(ppos)
-        myabego = ppos2abegos(ppos, divideB=True)
+        myabego = _ppos2abegos(ppos, divideB=True)
         ii = 0
         for key in keys:
             label = str(myabego[ii]) + "_" + str(round(ppos[ii, 0])) + "_" + str(int(ppos[ii, 1]))
@@ -260,20 +256,6 @@ def ramapsego(target="polymer.protein"):
             cmd.label(tgt + " and index " + str(key[1]), expression=qlabel)
             ii += 1
             cmd.set("label_size", "30")
-
-
-pymol.cmd.extend("labego", labego)
-pymol.cmd.extend("ramaval", ramaval)
-pymol.cmd.extend("ramabego", ramabego)
-pymol.cmd.extend("ramapsego", ramapsego)
-pymol.cmd.extend("lapsego", lapsego)
-
-cmd.auto_arg[0]['ramaval'] = cmd.auto_arg[0]['delete']
-cmd.auto_arg[0]['labego'] = cmd.auto_arg[0]['delete']
-cmd.auto_arg[0]['lapsego'] = cmd.auto_arg[0]['delete']
-cmd.auto_arg[0]['ramapsego'] = cmd.auto_arg[0]['delete']
-cmd.auto_arg[0]['ramabego'] = cmd.auto_arg[0]['delete']
-
 
 ####################################
 def get_abego_gap_filled(target="polymer.protein", divideB=False):
@@ -361,7 +343,9 @@ def get_abego_gap_filled(target="polymer.protein", divideB=False):
             ppos.append([phi, psi, omega])
 
         ppos = np.array(ppos)
-        myabego = ppos2abegos(ppos, divideB=divideB)
+        myabego = _ppos2abegos(ppos, divideB=divideB)
+        if myabego is None:
+            return abegos, fastas, bfactors, min_indexes, chains
 
         resis = np.array(resis)
         gap = resis[1:] - resis[0:-1] - 1
@@ -454,17 +438,17 @@ def _abego(target, query="GBB", mode="labego"):
                     i = diff + ii + 1
                     e = diff + ee + 1
                     if mode == "labego":
-                        labego(obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
+                        _labego(obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
                     elif mode == "lapsego":
-                        lapsego(obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
+                        _lapsego(obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
                     elif mode == "labegO":
-                        labegO(obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
+                        _labegO(obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
                     elif mode == "lapsegO":
-                        lapsegO(obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
+                        _lapsegO(obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
                     elif mode == "ramabego":
-                        ramabego(obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
+                        _ramabego(obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
                     elif mode == "ramapsego":
-                        ramapsego(obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
+                        _ramapsego(obj + " and resi " + str(i) + "-" + str(e) + " and chain " + chain)
     return 0
 
 
@@ -637,6 +621,7 @@ def abego_print(target=None, query="GBB", divideB=False):
 
 pymol.cmd.extend("abego_print", abego_print)
 pymol.cmd.auto_arg[0]['abego_print'] = pymol.cmd.auto_arg[0]['align']
+
 
 def abego_fit(mobile=None, target=None, query="GBB", index_t=0, index_m=0, mode="pair_fit", divideB=False):
     abegos_t, _, _, min_resis_t, chains_t = get_abego_gap_filled(target=target, divideB=divideB)
