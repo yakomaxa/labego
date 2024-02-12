@@ -322,9 +322,14 @@ def get_abego_gap_filled(target="polymer.protein", divideB=False):
             ca_resi = stored.ca_resi
             ca_bfactor = stored.bfactor
 
+
         aa_1 = []
         for aa_3 in ca_resname:
-            aa_1.append(aa3to1[aa_3])
+            _aa1 = aa3to1.get(aa_3)
+            if _aa1:
+                aa_1.append(_aa1)
+            else:
+                aa_1.append("X")
         myfasta = aa_1
 
         phipsi = pymol.cmd.get_phipsi(selection)
